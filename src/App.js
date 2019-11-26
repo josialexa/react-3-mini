@@ -68,6 +68,16 @@ class App extends Component {
   updatePrice(priceChange, id) {
     // axios (PUT)
     // setState with response -> vehiclesToDisplay
+    axios.put(`https://joes-autos.herokuapp.com/api/vehicles/${id}/${priceChange}`)
+    .then(response => {
+      console.log(response)
+      this.setState({vehiclesToDisplay: response.data.vehicles})
+      toast.success(`The ${response.data.vehicles[+id - 1].year} ${response.data.vehicles[+id - 1].make} is now $${response.data.vehicles[+id - 1].price}`)
+    })
+    .catch(error => {
+      toast.error('Could not change price!')
+      console.log(error)
+    })
   }
 
   addCar() {
