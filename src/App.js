@@ -31,6 +31,14 @@ class App extends Component {
   getVehicles() {
     // axios (GET)
     // setState with response -> vehiclesToDisplay
+    axios.get('https://joes-autos.herokuapp.com/api/vehicles')
+      .then(response => {
+        this.setState({vehiclesToDisplay: response.data})
+        toast.success('Loaded cars successfully!')
+      })
+      .catch(error => {
+        toast.error('Error loading cards!')
+      })
   }
 
   getPotentialBuyers() {
