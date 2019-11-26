@@ -70,13 +70,12 @@ class App extends Component {
     // setState with response -> vehiclesToDisplay
     axios.put(`https://joes-autos.herokuapp.com/api/vehicles/${id}/${priceChange}`)
     .then(response => {
-      console.log(response)
-      this.setState({vehiclesToDisplay: response.data.vehicles})
-      toast.success(`The ${response.data.vehicles[+id - 1].year} ${response.data.vehicles[+id - 1].make} is now $${response.data.vehicles[+id - 1].price}`)
+      const vehicles = response.data.vehicles
+      this.setState({vehiclesToDisplay: vehicles})
+      toast.success(`The ${vehicles[+id - 1].year} ${vehicles[+id - 1].make} is now $${vehicles[+id - 1].price}!`)
     })
     .catch(error => {
       toast.error('Could not change price!')
-      console.log(error)
     })
   }
 
@@ -91,6 +90,14 @@ class App extends Component {
 
     // axios (POST)
     // setState with response -> vehiclesToDisplay
+    axios.post('https://joes-autos.herokuapp.com/api/vehicles', newCar)
+    .then(response => {
+      this.setState({vehiclesToDisplay: response.data.vehicles})
+      toast.success(`${newCar.year} ${newCar.model} added to stock!`)
+    })
+    .catch(error => {
+      toast.error('Could not add car!')
+    })
   }
 
   addBuyer() {
