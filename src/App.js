@@ -44,6 +44,14 @@ class App extends Component {
   getPotentialBuyers() {
     // axios (GET)
     // setState with response -> buyersToDisplay
+    axios.get('https://joes-autos.herokuapp.com/api/buyers')
+      .then(response => {
+        this.setState({buyersToDisplay: response.data})
+        toast.success('Loaded buyers successfully!')
+      })
+      .catch(error => {
+        toast.error('Error loading buyers!')
+      })
   }
 
   sellCar(id) {
@@ -64,6 +72,17 @@ class App extends Component {
 
     // axios (GET)
     // setState with response -> vehiclesToDisplay
+    //it makes *waaaay* more sense to just filter the entire vehicle array with array.filter
+    //instead of a seperate get request each time (really for every filter method), but i'll
+    //do it the way the project specifies
+    axios.get(`https://joes-autos.herokuapp.com/api/vehicles?make=${make}`)
+      .then(response => {
+        this.setState({vehiclesToDisplay: response.data})
+        toast.success(`Filtered cars for ${make}s!`)
+      })
+      .catch(error => {
+        toast.error(`Error filtering for ${make}s!`)
+      })
   }
 
   filterByColor() {
@@ -71,6 +90,14 @@ class App extends Component {
 
     // axios (GET)
     // setState with response -> vehiclesToDisplay
+    axios.get(`https://joes-autos.herokuapp.com/api/vehicles?color=${color}`)
+      .then(response => {
+        this.setState({vehiclesToDisplay: response.data})
+        toast.success(`Filtered for ${color} cars!`)
+      })
+      .catch(error => {
+        toast.error(`Error filtering for ${color} cars!`)
+      })
   }
 
   updatePrice(priceChange, id) {
@@ -117,11 +144,28 @@ class App extends Component {
 
     //axios (POST)
     // setState with response -> buyersToDisplay
+    axios.post('https://joes-autos.herokuapp.com/api/buyers', newBuyer)
+      .then(response => {
+        this.setState({buyersToDisplay: response.data.buyers})
+        toast.success(`Added ${newBuyer.name} as a buyer!`)
+      })
+      .catch(error => {
+        console.log(error)
+        toast.error('Error adding buyer!')
+      })
   }
 
   deleteBuyer(id) {
     // axios (DELETE)
     //setState with response -> buyersToDisplay
+    axios.delete(`https://joes-autos.herokuapp.com/api/buyers/${id}`)
+      .then(response => {
+        this.setState({buyersToDisplay: response.data.buyers})
+        toast.success('Removed buyer!')
+      })
+      .catch(error => {
+        toast.error('Error removing buyer!')
+      })
   }
 
   nameSearch() {
@@ -129,6 +173,14 @@ class App extends Component {
 
     // axios (GET)
     // setState with response -> buyersToDisplay
+    axios.get(`https://joes-autos.herokuapp.com/api/buyers?name=${searchLetters}`)
+      .then(response => {
+        this.setState({buyersToDisplay: response.data})
+        toast.success(`Searched for ${searchLetters}!`)
+      })
+      .catch(error => {
+        toast.error('Search failed!')
+      })
   }
 
   byYear() {
@@ -136,6 +188,15 @@ class App extends Component {
 
     // axios (GET)
     // setState with response -> vehiclesToDisplay
+    axios.get(`https://joes-autos.herokuapp.com/api/vehicles?year=${year}`)
+      .then(response => {
+        this.setState({vehiclesToDisplay: response.data})
+        toast.success(`Filtered for cars newer than ${year}!`)
+      })
+      .catch(error => {
+        console.log(error)
+        toast.error('Failed to filter by year!')
+      })
   }
 
   // Do not edit the code below
